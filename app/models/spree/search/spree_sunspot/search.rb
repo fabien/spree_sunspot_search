@@ -2,7 +2,7 @@ module Spree
   module Search
     module SpreeSunspot
 
-      class Search < defined?(Spree::Search::MultiDomain) ? Spree::Search::MultiDomain : Spree::Core::Search::Base
+      class Search < defined?(Spree::Core::Search::MultiDomain) ? Spree::Core::Search::MultiDomain : Spree::Core::Search::Base
         def retrieve_products
           conf = Spree::Search::SpreeSunspot.configuration
 
@@ -11,7 +11,7 @@ module Spree
           @properties[:sunspot] = Sunspot.search(Spree::Product) do
             # This is a little tricky to understand
             #     - we are sending the block value as a method
-            #     - Spree::Search::Base is using method_missing() to return the param values
+            #     - Spree::Core::Search::Base is using method_missing() to return the param values
             conf.display_facets.each do |name|
               with("#{name}_facet", send(name)) if send(name).present?
               facet("#{name}_facet")
